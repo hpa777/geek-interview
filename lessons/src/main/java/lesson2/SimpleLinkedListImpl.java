@@ -119,4 +119,39 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E> {
     public Iterator<E> iterator() {
         return new SimpleLinkedListIterator<E>(this);
     }
+
+
+    public void reverse() {
+        if (firstElement == null) return;
+        Node<E> prev = null;
+        Node<E> current = firstElement;
+        while (current.next != null) {
+            Node<E> next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        current.next = prev;
+        firstElement = current;
+    }
+
+    public boolean hasLoop() {
+        if (firstElement == null) return false;
+        Node<E> slow, fast;
+        slow = fast = firstElement;
+        while (true) {
+            slow = slow.next;
+            if (fast.next != null) {
+                fast = fast.next.next;
+            } else {
+                return false;
+            }
+            if (slow == null || fast == null) {
+                return false;
+            }
+            if (slow == fast) {
+                return true;
+            }
+        }
+    }
 }
